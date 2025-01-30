@@ -1,0 +1,8 @@
+What was the most useful feedback that your group received?
+Integrating more guiding interactions throughout the app, maybe a tour once the user logs in?
+
+Thinking about your own role in your group, which actions will you be taking based on that feedback?
+As the designer I will make sure to include a mini tutorial once the user onboards, and add micro interactions to make the overall experience more fun.
+
+Focusing on the other projects that you saw in class, what is one technique or tool that you learned about and may want to try in the future?
+Integrating outside APIs, or hosting it on AWS to enrich functionality, like the AWS web hosting team we would use Google's AI API to integrate one of their prompt libraries.
