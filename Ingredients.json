@@ -1,0 +1,14 @@
+{
+    "Tomato": {
+        "group": "Vegetable",
+        "storage": "Fridge"
+    },
+    "Apple": {
+        "group": "Fruit",
+        "storage": "Pantry"
+    },
+    "Milk": {
+        "group": "group",
+        "storage": "storage"
+    }
+}
