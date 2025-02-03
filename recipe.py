@@ -9,4 +9,4 @@ class Recipe:
         self.image_path = image_path
     
     def __repr__(self):
-        return f"{self.name} (Ingredients: {[ing.name for ing in self.ingredients]})"
+        return f"{self.name} (Ingredients: {[ing for ing in self.ingredients]})"

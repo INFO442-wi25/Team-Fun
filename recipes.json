@@ -1,0 +1,43 @@
+{
+    "Spaghetti Bolognese": {
+        "ingredients": [
+            "Spaghetti",
+            "Ground Beef",
+            "Tomato Sauce",
+            "Onion",
+            "Garlic"
+        ],
+        "instructions": "1. Cook the spaghetti according to the package instructions.\n2. In a separate pan, cook the ground beef until browned.\n3. Add the chopped onion and garlic to the beef and cook until softened.\n4. Stir in the tomato sauce and let simmer for 15 minutes.\n5. Serve the sauce over the spaghetti.",
+        "image_path": "images/spaghetti_bolognese.jpg"
+    },
+    "Chicken Salad": {
+        "ingredients": [
+            "Chicken Breast",
+            "Lettuce",
+            "Tomato",
+            "Cucumber",
+            "Salad Dressing"
+        ],
+        "instructions": "1. Cook the chicken breast and slice it into strips.\n2. Chop the lettuce, tomato, and cucumber.\n3. Mix the vegetables in a bowl and top with the chicken strips.\n4. Drizzle with salad dressing and serve.",
+        "image_path": "images/chicken_salad.jpg"
+    },
+    "Vegetable Stir Fry": {
+        "ingredients": [
+            "Broccoli",
+            "Carrot",
+            "Bell Pepper",
+            "Soy Sauce",
+            "Garlic"
+        ],
+        "instructions": "1. Chop the broccoli, carrot, and bell pepper into bite-sized pieces.\n2. In a pan, heat some oil and add the garlic.\n3. Add the vegetables and stir fry until tender.\n4. Add soy sauce to taste and cook for another 2 minutes.\n5. Serve hot.",
+        "image_path": "images/vegetable_stir_fry.jpg"
+    },
+    "testicle soup": {
+        "ingredients": [
+            "testicles",
+            "soup"
+        ],
+        "instructions": "stir",
+        "image_path": null
+    }
+}

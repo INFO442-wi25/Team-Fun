@@ -1,18 +1,14 @@
 import tkinter as tk
 from tkinter import messagebox, simpledialog
+from tkinterdnd2 import DND_FILES, TkinterDnD
 from recipe_manager import RecipeManager
-
-
-
 
 class RecipeGUI:
     def __init__(self, root):
-        self.root = root
+        self.root = root  # Enable drag and drop
         self.root.title("Recipe Manager")
         self.manager = RecipeManager()
-
-        # Sample Data
-        #self.manager.add_recipe("p", ["Flour", "Milk"], "Mix and cook.", "pancakes.jpg")
+        self.image_path = ""  # Store the image path after drag and drop
 
         self.create_main_menu()
 
@@ -26,7 +22,6 @@ class RecipeGUI:
         tk.Button(self.root, text="Add Recipe", command=self.add_recipe).pack(pady=5)
         tk.Button(self.root, text="Use Recipe", command=self.use_recipe).pack(pady=5)
         tk.Button(self.root, text="Exit", command=self.root.quit).pack(pady=10)
-
 
     def show_ingredients(self):
         self.clear_window()
@@ -57,15 +52,43 @@ class RecipeGUI:
         self.create_main_menu()
 
     def add_recipe(self):
+        self.clear_window()
+        tk.Label(self.root, text="Add Recipe", font=("Arial", 14, "bold")).pack(pady=10)
+        
         name = simpledialog.askstring("Recipe Name", "Enter recipe name:")
         ingredient_names = simpledialog.askstring("Ingredients", "Enter ingredients (comma separated):")
         instructions = simpledialog.askstring("Instructions", "Enter recipe instructions:")
-        image_path = simpledialog.askstring("Image Path", "Enter image file path (optional):")
-
+        
         if name and ingredient_names and instructions:
-            ingredient_list = [i.strip() for i in ingredient_names.split(",")]
-            self.manager.add_recipe(name, ingredient_list, instructions, image_path)
-            messagebox.showinfo("Success", f"Added recipe: {name}")
+            self.image_path = ""  # Reset image path before drag-and-drop
+            self.create_drag_and_drop_widget(name, ingredient_names, instructions)
+        else:
+            messagebox.showerror("Error", "All fields except image are required.")
+            self.create_main_menu()
+
+        print(name + ingredient_names + instructions + self.image_path)
+
+    def create_drag_and_drop_widget(self, name, ingredient_names, instructions):
+        tk.Label(self.root, text="Drop an image file here (optional)", bg="lightgray", fg="black", relief="ridge", width=50, height=5).pack(pady=20)
+        file_label = tk.Label(self.root, text="Drop a file here", bg="lightgray", fg="black", relief="ridge", width=50, height=5)
+        file_label.pack(pady=10)
+        
+        file_label.drop_target_register(DND_FILES)
+        file_label.dnd_bind('<<Drop>>', lambda event: self.drop(event, file_label, name, ingredient_names, instructions))
+        
+        tk.Button(self.root, text="Submit Recipe", command=lambda: self.save_recipe(name, ingredient_names, instructions)).pack(pady=10)
+        tk.Button(self.root, text="Cancel", command=self.create_main_menu).pack(pady=5)
+
+    def drop(self, event, file_label, name, ingredient_names, instructions):
+        self.image_path = event.data.strip()
+        file_label.config(text=self.image_path)
+        with open("file_paths.txt", "a") as f:
+            f.write(self.image_path + "\n")
+
+    def save_recipe(self, name, ingredient_names, instructions):
+        ingredient_list = [i.strip() for i in ingredient_names.split(",")]
+        self.manager.add_recipe(name, ingredient_list, instructions, self.image_path if self.image_path else None)
+        messagebox.showinfo("Success", f"Added recipe: {name}")
         self.create_main_menu()
 
     def use_recipe(self):
@@ -93,9 +116,10 @@ class RecipeGUI:
             widget.destroy()
 
 def main():
-    root = tk.Tk()
+    root = TkinterDnD.Tk()
     app = RecipeGUI(root)
     root.mainloop()
 
 if __name__ == "__main__":
     main()
+
