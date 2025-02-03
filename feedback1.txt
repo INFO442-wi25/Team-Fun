@@ -1,3 +1,8 @@
 What was the most useful feedback that your group received?
+    Rather than being completely text based, try and have some visual aspect to create a better user experience.
+
 Thinking about your own role in your group, which actions will you be taking based on that feedback?
+Make it GUI based rather than CLI based lol.
+
 Focusing on the other projects that you saw in class, what is one technique or tool that you learned about and may want to try in the future?
+I want to approach my software development with the intent of learning new things. I was really inspired that one of the groups was so intent on using WAS to host their 340 project. I thought it was really cool.
