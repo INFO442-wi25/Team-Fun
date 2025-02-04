@@ -1,7 +1,9 @@
 import tkinter as tk
-from tkinter import messagebox, simpledialog
+from tkinter import messagebox, simpledialog, ttk
 from tkinterdnd2 import DND_FILES, TkinterDnD
 from recipe_manager import RecipeManager
+import csv
+from PIL import Image, ImageTk
 
 class RecipeGUI:
     def __init__(self, root):
@@ -9,9 +11,17 @@ class RecipeGUI:
         self.root.title("Recipe Manager")
         self.manager = RecipeManager()
         self.image_path = ""  # Store the image path after drag and drop
-
+        self.ingredients_list = self.load_ingredients_from_csv()
         self.create_main_menu()
 
+    def load_ingredients_from_csv(self):
+        ingredients = []
+        with open("Ingredient.csv", "r") as file:
+            reader = csv.reader(file)
+            for row in reader:
+                ingredients.append(row[1])  # Assuming the first column is the ingredient name
+        return ingredients    
+    
     def create_main_menu(self):
         self.clear_window()
         
@@ -23,8 +33,13 @@ class RecipeGUI:
         tk.Button(self.root, text="Use Recipe", command=self.use_recipe).pack(pady=5)
         tk.Button(self.root, text="Exit", command=self.root.quit).pack(pady=10)
 
+
+
+
     def show_ingredients(self):
         self.clear_window()
+
+        
         tk.Label(self.root, text="Ingredients List", font=("Arial", 14, "bold")).pack(pady=5)
         
         for ingredient in self.manager.list_ingredients():
@@ -36,20 +51,74 @@ class RecipeGUI:
         self.clear_window()
         tk.Label(self.root, text="Recipe List", font=("Arial", 14, "bold")).pack(pady=5)
         
-        for recipe in self.manager.list_recipes():
-            tk.Label(self.root, text=str(recipe)).pack()
-        
+        for recipe_name in self.manager.list_recipes():
+            label = tk.Label(self.root, text=str(recipe_name), fg="blue", cursor="hand2")
+            label.pack()
+
+            def on_click(event, name=recipe_name):
+                self.open_recipe_window(name)
+
+            label.bind("<Button-1>", on_click)  # Bind left-click event to recipe label
+
         tk.Button(self.root, text="Back", command=self.create_main_menu).pack(pady=10)
 
-    def add_ingredient(self):
-        name = simpledialog.askstring("Ingredient Name", "Enter ingredient name:")
-        #group = simpledialog.askstring("Ingredient Group", "Enter ingredient group (e.g., Dairy, Vegetable):")
-        #storage = simpledialog.askstring("Storage", "Enter storage location (e.g., Fridge, Pantry):")
 
-        if name:
-            self.manager.add_ingredient(name, "group", "storage")
-            messagebox.showinfo("Success", f"Added {name} to ingredients!")
-        self.create_main_menu()
+    def open_recipe_window(self, recipe):
+        # Create a new Toplevel window
+        new_window = tk.Toplevel(self.root)
+        new_window.title(f"Recipe: {recipe}")
+
+        tk.Label(new_window, text=f"{recipe}", font=("Arial", 14, "bold")).pack(pady=10)
+
+        
+        if recipe:
+            tk.Label(new_window, text="Ingredients:", font=("Arial", 12, "bold")).pack(pady=5)
+            for ingredient in recipe.ingredients:
+                tk.Label(new_window, text=ingredient).pack()
+
+            tk.Label(new_window, text="Instructions:", font=("Arial", 12, "bold")).pack(pady=5)
+            tk.Label(new_window, text=recipe.instructions, wraplength=400).pack(pady=5)
+
+            if recipe.image_path:
+                try:
+                    image = Image.open(recipe.image_path)
+                    width = 600
+                    w_percent = (width / float(image.size[0]))
+                    height = int((float(image.size[1]) * float(w_percent)))
+                    image = image.resize((width, height))
+                    photo = ImageTk.PhotoImage(image)
+                    tk.Label(new_window, image=photo).pack(pady=10)
+                    new_window.image = photo  # Keep a reference to avoid garbage collection
+                except Exception as e:
+                    tk.Label(new_window, text=f"Error loading image: {e}").pack(pady=5)
+        else:
+            tk.Label(new_window, text="Recipe not found.", font=("Arial", 12, "bold")).pack(pady=10)
+
+    def add_ingredient(self):
+        self.clear_window()
+        tk.Label(self.root, text="Add Ingredient", font=("Arial", 14, "bold")).pack(pady=10)
+
+        ingredient_var = tk.StringVar()
+        combobox = ttk.Combobox(self.root, textvariable=ingredient_var)
+        combobox.pack(pady=10)
+
+        def update_combobox(*args):
+            search_term = ingredient_var.get()
+            filtered_list = [ingredient for ingredient in self.ingredients_list if ingredient.lower().startswith(search_term.lower())]
+            combobox['values'] = filtered_list
+
+        ingredient_var.trace("w", update_combobox)
+
+        def on_select(event):
+            name = combobox.get()
+            if name:
+                self.manager.add_ingredient(name, "group", "storage")
+                messagebox.showinfo("Success", f"Added {name} to ingredients!")
+                self.create_main_menu()
+
+        combobox.bind("<<ComboboxSelected>>", on_select)
+
+        tk.Button(self.root, text="Back", command=self.create_main_menu).pack(pady=10)
 
     def add_recipe(self):
         self.clear_window()
@@ -92,24 +161,30 @@ class RecipeGUI:
         self.create_main_menu()
 
     def use_recipe(self):
-        name = simpledialog.askstring("Use Recipe", "Enter recipe name:")
-        if name:
-            ingredients = self.manager.use_recipe(name)
-            if ingredients:
-                depleted = []
-                for ing in ingredients:
-                    if messagebox.askyesno("Depleted?", f"Did you use up {ing}?"):
-                        depleted.append(ing)
-                
-                # Remove depleted ingredients
-                for ing in depleted:
-                    self.manager.remove_ingredient(ing.name)
-                
-                #messagebox.showinfo("Updated", f"Removed depleted ingredients: {', '.join(depleted)}")
-                self.show_ingredients()
-            else:
-                messagebox.showerror("Error", "Recipe not found!")
-        self.create_main_menu()
+        self.clear_window()
+        tk.Label(self.root, text="Use Recipe", font=("Arial", 14, "bold")).pack(pady=10)
+
+        recipe_var = tk.StringVar()
+        combobox = ttk.Combobox(self.root, textvariable=recipe_var)
+        combobox.pack(pady=10)
+
+        def update_combobox(*args):
+            search_term = recipe_var.get()
+            filtered_list = [recipe for recipe in self.manager.list_recipes() if recipe.name.lower().startswith(search_term.lower())]
+            combobox['values'] = filtered_list
+
+        recipe_var.trace("w", update_combobox)
+
+        def on_select(event):
+            name = combobox.get()
+            if name:
+                self.manager.use_recipe(name)
+                messagebox.showinfo("Success", f"Using recipe: {name}")
+                self.create_main_menu()
+
+        combobox.bind("<<ComboboxSelected>>", on_select)
+
+        tk.Button(self.root, text="Back", command=self.create_main_menu).pack(pady=10)
 
     def clear_window(self):
         for widget in self.root.winfo_children():

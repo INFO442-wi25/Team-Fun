@@ -39,5 +39,22 @@
         ],
         "instructions": "stir",
         "image_path": null
+    },
+    "love": {
+        "ingredients": [
+            "death",
+            "sorrow",
+            "beer"
+        ],
+        "instructions": "mix and blend\ndie for your country\neat a rat",
+        "image_path": "C:/Users/alexl/OneDrive/Desktop/chemistry.png"
+    },
+    "Apple milk": {
+        "ingredients": [
+            "Apple",
+            "Milk"
+        ],
+        "instructions": "blend",
+        "image_path": null
     }
 }

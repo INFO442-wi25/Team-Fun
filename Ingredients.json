@@ -10,5 +10,21 @@
     "Milk": {
         "group": "group",
         "storage": "storage"
+    },
+    "Alex": {
+        "group": "Human",
+        "storage": "Earth"
+    },
+    "Salt": {
+        "group": "Spice",
+        "storage": "Pantry"
+    },
+    "nuts": {
+        "group": "group",
+        "storage": "storage"
+    },
+    "Chickpea": {
+        "group": "group",
+        "storage": "storage"
     }
 }

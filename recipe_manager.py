@@ -10,6 +10,9 @@ class RecipeManager:
         self.load_recipes()  # Load recipes from JSON on startup
         self.load_ingredients()  # Load ingredients from JSON on startup
 
+    def get_recipe(self, name: str):
+        return self.recipes.get(name)
+
     def save_ingredients(self):
         """Save ingredients to ingredients.json."""
         try:
@@ -75,9 +78,9 @@ class RecipeManager:
     def list_ingredients(self):
         return list(self.ingredients.values())
     
-    def use_recipe(self, recipe_name: str):
-        if recipe_name in self.recipes:
-            return self.recipes[recipe_name].ingredients
+    def use_recipe(self, used_ingredients: List[str]):
+        for ing in used_ingredients:
+            self.remove_ingredient(ing)
         return None
     
     def remove_ingredient(self, name: str):
