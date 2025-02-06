@@ -3,10 +3,6 @@
         "group": "Vegetable",
         "storage": "Fridge"
     },
-    "Apple": {
-        "group": "Fruit",
-        "storage": "Pantry"
-    },
     "Milk": {
         "group": "group",
         "storage": "storage"
@@ -24,6 +20,10 @@
         "storage": "storage"
     },
     "Chickpea": {
+        "group": "group",
+        "storage": "storage"
+    },
+    "Beer": {
         "group": "group",
         "storage": "storage"
     }
