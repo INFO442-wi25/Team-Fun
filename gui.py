@@ -104,7 +104,7 @@ class RecipeGUI:
 
         def update_combobox(*args):
             search_term = ingredient_var.get()
-            filtered_list = [ingredient for ingredient in self.ingredients_list if ingredient.lower().startswith(search_term.lower())]
+            filtered_list = [ingredient for ingredient in self.ingredients_list if search_term.lower() in ingredient.lower()]
             combobox['values'] = filtered_list
 
         ingredient_var.trace("w", update_combobox)
@@ -170,7 +170,7 @@ class RecipeGUI:
 
         def update_combobox(*args):
             search_term = recipe_var.get()
-            filtered_list = [recipe for recipe in self.manager.list_recipes() if recipe.name.lower().startswith(search_term.lower())]
+            filtered_list = [recipe for recipe in self.manager.list_recipes() if search_term.lower() in recipe.name.lower()]
             combobox['values'] = filtered_list
 
         recipe_var.trace("w", update_combobox)
@@ -178,7 +178,9 @@ class RecipeGUI:
         def on_select(event):
             name = combobox.get()
             if name:
-                self.manager.use_recipe(name)
+                depleted_ingredients = simpledialog.askstring("Depleted Ingredients", "Did you deplete any ingredients? (comma separated):")
+                depleted_list = [ingredient.strip() for ingredient in depleted_ingredients.split(",")]
+                self.manager.use_recipe(depleted_list)
                 messagebox.showinfo("Success", f"Using recipe: {name}")
                 self.create_main_menu()
 

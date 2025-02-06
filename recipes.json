@@ -32,14 +32,6 @@
         "instructions": "1. Chop the broccoli, carrot, and bell pepper into bite-sized pieces.\n2. In a pan, heat some oil and add the garlic.\n3. Add the vegetables and stir fry until tender.\n4. Add soy sauce to taste and cook for another 2 minutes.\n5. Serve hot.",
         "image_path": "images/vegetable_stir_fry.jpg"
     },
-    "testicle soup": {
-        "ingredients": [
-            "testicles",
-            "soup"
-        ],
-        "instructions": "stir",
-        "image_path": null
-    },
     "love": {
         "ingredients": [
             "death",
@@ -56,5 +48,30 @@
         ],
         "instructions": "blend",
         "image_path": null
+    },
+    "Tuna bowl": {
+        "ingredients": [
+            "Rice",
+            "Tuna",
+            "Kewpie",
+            "Sriracha",
+            "Rice Wine Vinegar",
+            "Sesame Oil",
+            "MSG",
+            "Furikake",
+            "Lao Go Ma",
+            "Red Onion",
+            "Cucumber"
+        ],
+        "instructions": "i",
+        "image_path": null
+    },
+    "julie soup": {
+        "ingredients": [
+            "julie",
+            "soup"
+        ],
+        "instructions": "blend",
+        "image_path": "C:/Users/alexl/OneDrive/Desktop/chemistry.png"
     }
 }
