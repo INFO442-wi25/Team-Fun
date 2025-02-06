@@ -12,6 +12,8 @@ We will judge the project's completion on the completion of two major components
 Second, we will be building a super low-fidelity MVP that will leave the focus on the working backend for this product. The GUI powering this application will only be to simulate the actions for this MVP, but hopefully not be ugly. The backend of the application will let users add ingredients and recipes, view them, and use a recipe, removing the depleted ingredients from the user's pantry. A stretch goal for this backend will be allowing the user to upload a photo of ingredients, and get recipe inspiration. This will probably be powered by a shoddy API call to the openAI API. 
 
 ## Architecture
+![image](https://github.com/user-attachments/assets/4603da2b-f6d8-4bfb-a0c6-a8cc5fd62f3d)
+
 [Figma](https://www.figma.com/design/to1waHfK1ivhWLiF5hws1r/INFO442?node-id=0-1&p=f&t=UsbjJimPabqv2i6D-0)
 
 <img width="685" alt="nothing_burger" src="https://github.com/user-attachments/assets/51a951da-6b5b-46e6-b312-3bd563bef1bb" />
